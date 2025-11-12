@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 
 def user_login(request):
     if request.user.is_authenticated == True:
-        return redirect("/")
+        return redirect("home_app:home")
 
     if request.method == "POST":
         username = request.POST.get("username")
@@ -20,7 +20,7 @@ def user_login(request):
 def user_register(request):
     context = {"errors": []}
     if request.user.is_authenticated == True:
-        return redirect("/")
+        return redirect("home_app:home")
 
     if request.method == "POST":
         username = request.POST.get("username")
@@ -36,10 +36,10 @@ def user_register(request):
         #     return render(request, template_name="account/register.html", context=context)
         user = User.objects.create(username=username, password=password1, email=email)
         login(request, user)
-        return redirect("/")
+        return redirect("home_app:home")
     return render(request, template_name="account/register.html", context={})
 
 
 def user_logout(request):
     logout(request)
-    return redirect("/")
+    return redirect("home_app:home")
