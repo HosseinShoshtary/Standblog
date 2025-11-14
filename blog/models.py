@@ -19,6 +19,8 @@ class Article(models.Model):
     image = models.ImageField(upload_to="images/article", blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    status = models.BooleanField(default=False)
+    slug = models.SlugField(null=True, blank=True, default=title)
 
     def __str__(self):
         return f"{self.title} - {self.body[:30]}"
