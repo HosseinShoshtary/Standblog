@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
+{% load render_partial %}
+{% load social_share %}
 {% block title %}
     Home
 {% endblock %}
@@ -83,7 +85,7 @@
                     {% endif %}
                     <div class="down-content">
                       <span>{{ article.category.all.first }}</span>
-                      <a href=""><h4>{{ article.title }}</h4></a>
+                      <a href="{{ article.get_absolute_url }}"><h4>{{ article.title }}</h4></a>
                       <ul class="post-info">
                         <li><a href="#">{{ article.auther.username }}</a></li>
                         <li><a href="#">{{ article.created }}</a></li>
@@ -102,8 +104,7 @@
                           <div class="col-6">
                             <ul class="post-share">
                               <li><i class="fa fa-share-alt"></i></li>
-                              <li><a href="#">Facebook</a>,</li>
-                              <li><a href="#"> Twitter</a></li>
+                              <li>{% post_to_whatsapp article.get_absolute_url "Whatsapp" %}</li>
                             </ul>
                           </div>
                         </div>
@@ -121,7 +122,7 @@
               </div>
             </div>
           </div>
-          {% include "includes/sidebar.html" %}
+          {% render_partial "home_app:sidebar_partial" %}
         </div>
       </div>
     </section>

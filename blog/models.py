@@ -14,8 +14,8 @@ class Category(models.Model):
 
 
 class Article(models.Model):
-    auther = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ManyToManyField(Category)
+    auther = models.ForeignKey(User, on_delete=models.CASCADE, related_name="articles")
+    category = models.ManyToManyField(Category, related_name="articles")
     title = models.CharField(max_length=70)
     body = models.TextField()
     image = models.ImageField(upload_to="images/article", blank=True, null=True)
@@ -24,9 +24,8 @@ class Article(models.Model):
     status = models.BooleanField(default=False)
     slug = models.SlugField(null=True, blank=True, unique=True)
 
-
-    class Meta:
-        ordering = ("-created",)
+    # class Meta:
+    #     ordering = ("-created",)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
