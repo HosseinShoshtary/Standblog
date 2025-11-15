@@ -24,8 +24,8 @@ class Article(models.Model):
     status = models.BooleanField(default=False)
     slug = models.SlugField(null=True, blank=True, unique=True)
 
-    # class Meta:
-    #     ordering = ("-created",)
+    class Meta:
+        ordering = ("-created",)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
