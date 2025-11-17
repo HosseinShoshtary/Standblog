@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.text import slugify
 
 
@@ -56,7 +57,20 @@ class Like(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.article.title}"
 
-    class Meta:
-        verbose_name = "لایک"
-        verbose_name_plural = "لایک ها"
-        ordering = ("-created_at",)
+
+class Message(models.Model):
+    title = models.CharField(max_length=100)
+    text = models.TextField()
+    email = models.EmailField()
+    age = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    date = models.DateTimeField(default=timezone.now())
+
+    def __str__(self):
+        return self.title
+
+
+    # class Meta:
+    #     verbose_name = "لایک"
+    #     verbose_name_plural = "لایک ها"
+    #     ordering = ("-created_at",)
