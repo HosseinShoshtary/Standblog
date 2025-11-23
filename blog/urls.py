@@ -9,8 +9,6 @@ urlpatterns = [
     path("category/<int:pk>", views.category_detail, name="category_detail"),
     path("search/", views.search, name="search_articles"),
     path("contact_us/", views.contact_us, name="contact_us"),
-    path("testbase", views.TestBaseView.as_view(), name="test_base"),
-    path("reza", views.HelloToReza.as_view(), name="test_reza"),
-    path("karim", views.HelloToKarim.as_view(), name="test_karim"),
+    path("users", views.UserList.as_view(), name="user_list"),
     # path("Like/<slug:slug>/<int:pk>", views.like, name="like"),
 ]

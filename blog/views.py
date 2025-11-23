@@ -1,8 +1,10 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from .models import Article, Category, Comment, Message, Like
 from django.core.paginator import Paginator
 from .forms import ContactUsForm, MessageForm
 from django.views.generic.base import View
+from django.views.generic import ListView
 
 
 def post_detaile(request, slug):
@@ -50,21 +52,22 @@ def contact_us(request):
     return render(request, template_name="blog/contact_us.html", context={"form": form})
 
 
-class TestBaseView(View):
-    name = "hossein"
-
-    def get(self, request):
-        return HttpResponse(self.name)
-
-
-class HelloToReza(TestBaseView):
-    name = "reza"
+# class ListView(View):
+#     queryset = None
+#     template_name = None
+#
+#     def get(self, request):
+#         return render(request, self.template_name, context={"object_list": self.queryset})
 
 
-class HelloToKarim(TestBaseView):
-    name = "karim"
+class ArticleList(ListView):
+    queryset = Article.objects.all()
+    template_name = "blog/article_list.html"
 
 
+class UserList(ListView):
+    queryset = User.objects.all()
+    template_name = "blog/user_list.html"
 
 
 # def like(request, slug, pk):
