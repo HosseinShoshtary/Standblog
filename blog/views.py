@@ -3,8 +3,8 @@ from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from .models import Article, Category, Comment, Message, Like
 from django.core.paginator import Paginator
 from .forms import ContactUsForm, MessageForm
-from django.views.generic.base import View
-from django.views.generic import ListView
+from django.views.generic.base import View, TemplateView, RedirectView
+from django.views.generic import ListView, DetailView
 
 
 def post_detaile(request, slug):
@@ -59,15 +59,22 @@ def contact_us(request):
 #     def get(self, request):
 #         return render(request, self.template_name, context={"object_list": self.queryset})
 
+class HomePageRedirect(RedirectView):
+    # url = "/"
+    pattern_name = "blog:list"
 
-class ArticleList(ListView):
-    queryset = Article.objects.all()
-    template_name = "blog/article_list.html"
+
+class ArticleList(TemplateView):
+    pass
 
 
 class UserList(ListView):
     queryset = User.objects.all()
     template_name = "blog/user_list.html"
+
+
+class ArticleDetailView(DetailView):
+    model = Article
 
 
 # def like(request, slug, pk):

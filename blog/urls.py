@@ -10,5 +10,6 @@ urlpatterns = [
     path("search/", views.search, name="search_articles"),
     path("contact_us/", views.contact_us, name="contact_us"),
     path("users", views.UserList.as_view(), name="user_list"),
+    path("red", views.HomePageRedirect.as_view(), name="redirect"),
     # path("Like/<slug:slug>/<int:pk>", views.like, name="like"),
 ]
