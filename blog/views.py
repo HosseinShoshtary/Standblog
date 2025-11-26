@@ -4,7 +4,8 @@ from .models import Article, Category, Comment, Message, Like
 from django.core.paginator import Paginator
 from .forms import ContactUsForm, MessageForm
 from django.views.generic.base import View, TemplateView, RedirectView
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, FormView, CreateView
+from django.urls import reverse, reverse_lazy
 
 
 def post_detaile(request, slug):
@@ -75,6 +76,34 @@ class UserList(ListView):
 
 class ArticleDetailView(DetailView):
     model = Article
+
+
+class ArticleListView(ListView):
+    model = Article
+    context_object_name = "articles"
+    paginate_by = 2
+
+
+class ContactUsView(FormView):
+    template_name = "blog/contact_us.html"
+    form_class = MessageForm
+    success_url = reverse_lazy("home_app:home")
+
+    def form_valid(self, form):
+        from_data = form.cleaned_data
+        Message.objects.create(**from_data)
+        return super().form_valid(form)
+
+
+class MessageView(CreateView):
+    model = Message
+    fields = "__all__"
+    success_url = reverse_lazy("home_app:home")
+
+
+
+
+
 
 
 # def like(request, slug, pk):
