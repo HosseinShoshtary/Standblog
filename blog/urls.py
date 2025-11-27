@@ -11,5 +11,8 @@ urlpatterns = [
     path("contact_us/", views.MessageView.as_view(), name="contact_us"),
     path("users", views.UserList.as_view(), name="user_list"),
     path("red", views.HomePageRedirect.as_view(), name="redirect"),
+    path("messages", views.MessagesListView.as_view(), name="message_list"),
+    path("message/edit/<int:pk>", views.MessageUpdateView.as_view(), name="message_edit"),
+    path("message/delete/<int:pk>", views.MessageDeleteView.as_view(), name="message_delete"),
     # path("Like/<slug:slug>/<int:pk>", views.like, name="like"),
 ]

@@ -20,9 +20,6 @@
                     <div class="sidebar-heading">
                       <h2>Send us a message</h2>
                     </div>
-{#                    {% for massage in messages %}#}
-{#                        {{ massage.title }}#}
-{#                    {% endfor %}#}
                     <div class="content">
                       <form id="contact" action="" method="post">
                           {% csrf_token %}
@@ -30,11 +27,12 @@
                           <div class="col-lg-12">
 
                           {{ form }}
+                              <a href="{% url "blog:message_delete" object.id %}" class="btn btn-danger">Delete</a>
 
                           </div>
                           <div class="col-lg-12">
                             <fieldset>
-                              <button type="submit" id="form-submit" class="main-button">Send Message</button>
+                              <button type="submit" id="form-submit" class="main-button">Update</button>
                             </fieldset>
                           </div>
                         </div>
