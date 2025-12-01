@@ -23,6 +23,7 @@ class Article(models.Model):
     updated = models.DateTimeField(auto_now=True)
     status = models.BooleanField(default=False)
     slug = models.SlugField(null=True, blank=True, unique=True)
+    pub_date = models.DateTimeField(default=timezone.now())
 
     class Meta:
         ordering = ("-created",)
@@ -68,6 +69,8 @@ class Message(models.Model):
 
     def __str__(self):
         return self.title
+
+
 
 
     # class Meta:

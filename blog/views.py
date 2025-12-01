@@ -4,8 +4,9 @@ from .models import Article, Category, Comment, Message, Like
 from django.core.paginator import Paginator
 from .forms import ContactUsForm, MessageForm
 from django.views.generic.base import View, TemplateView, RedirectView
-from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView, DeleteView, ArchiveIndexView, YearArchiveView
 from django.urls import reverse, reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def post_detaile(request, slug):
@@ -77,7 +78,7 @@ class UserList(ListView):
 class ArticleDetailView(DetailView):
     model = Article
 
-
+# LoginRequiredMixin
 class ArticleListView(ListView):
     model = Article
     context_object_name = "articles"
@@ -131,6 +132,18 @@ class MessageDeleteView(DeleteView):
     model = Message
     success_url = reverse_lazy("blog:message_list")
 
+
+class ArchiveIndexArticleView(ArchiveIndexView):
+    model = Article
+    date_field = "updated"
+
+
+class YearArchiveArticleView(YearArchiveView):
+    model = Article
+    date_field = "pub_date"
+    make_object_list = True
+    allow_empty = True
+    template_name = "blog/article_archive_year.html"
 
 # def like(request, slug, pk):
 #     try:
