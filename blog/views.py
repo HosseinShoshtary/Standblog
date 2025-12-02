@@ -7,6 +7,7 @@ from django.views.generic.base import View, TemplateView, RedirectView
 from django.views.generic import ListView, DetailView, FormView, CreateView, UpdateView, DeleteView, ArchiveIndexView, YearArchiveView
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
+from . mixins import LoginBlogRequiredMixin
 
 
 def post_detaile(request, slug):
@@ -78,8 +79,9 @@ class UserList(ListView):
 class ArticleDetailView(DetailView):
     model = Article
 
+
 # LoginRequiredMixin
-class ArticleListView(ListView):
+class ArticleListView(LoginBlogRequiredMixin, ListView):
     model = Article
     context_object_name = "articles"
     paginate_by = 2
