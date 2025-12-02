@@ -2,11 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.html import format_html
 from django.utils.text import slugify
 
 
 class Category(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, verbose_name="عنوان")
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -18,15 +19,15 @@ class Category(models.Model):
 
 
 class Article(models.Model):
-    auther = models.ForeignKey(User, on_delete=models.CASCADE, related_name="articles")
-    category = models.ManyToManyField(Category, related_name="articles")
-    title = models.CharField(max_length=70)
-    body = models.TextField()
-    image = models.ImageField(upload_to="images/article", blank=True, null=True)
+    auther = models.ForeignKey(User, on_delete=models.CASCADE, related_name="articles", verbose_name="نویسنده")
+    category = models.ManyToManyField(Category, related_name="articles", verbose_name="موضوع")
+    title = models.CharField(max_length=70, verbose_name="تایتل")
+    body = models.TextField(verbose_name="متن")
+    image = models.ImageField(upload_to="images/article", blank=True, null=True, verbose_name="عکس")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    status = models.BooleanField(default=False)
-    slug = models.SlugField(null=True, blank=True, unique=True)
+    status = models.BooleanField(default=False, verbose_name="وضعیت")
+    slug = models.SlugField(null=True, blank=True, unique=True, verbose_name="اسلاگ ")
     pub_date = models.DateTimeField(default=timezone.now())
 
     class Meta:
@@ -41,15 +42,18 @@ class Article(models.Model):
     def get_absolute_url(self):
         return reverse("blog:detail", kwargs={"slug": self.slug})
 
+    # def show_image(self):
+    #     return format_html(f'<img src="{self.image.url}" width="30px" height="30px" >')
+
     def __str__(self):
         return f"{self.title} - {self.body[:30]}"
 
 
 class Comment(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="comments")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
-    parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="replies")
-    body = models.TextField()
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="comments", verbose_name="مقاله")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments", verbose_name="کاربر")
+    parent = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True, related_name="replies", verbose_name="در جواب")
+    body = models.TextField(verbose_name="متن پیام")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -61,8 +65,8 @@ class Comment(models.Model):
 
 
 class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="likes")
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="likes")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="likes", varbose_name="کاربر")
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="likes", varbose_name="مقاله")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -74,12 +78,12 @@ class Like(models.Model):
 
 
 class Message(models.Model):
-    title = models.CharField(max_length=100)
-    text = models.TextField()
-    email = models.EmailField()
-    age = models.IntegerField(default=0)
+    title = models.CharField(max_length=100, verbose_name="تایتل")
+    text = models.TextField(verbose_name="متن پیام")
+    email = models.EmailField(verbose_name="ایمبل")
+    age = models.IntegerField(default=0, verbose_name="سن")
     created_at = models.DateTimeField(auto_now_add=True, null=True)
-    date = models.DateTimeField(default=timezone.now())
+    date = models.DateTimeField(default=timezone.now(), verbose_name="تاریخ")
 
     def __str__(self):
         return self.title
