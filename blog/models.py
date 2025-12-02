@@ -12,6 +12,10 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = "دسته بندی"
+        verbose_name_plural = "دسته بندی ها"
+
 
 class Article(models.Model):
     auther = models.ForeignKey(User, on_delete=models.CASCADE, related_name="articles")
@@ -27,6 +31,8 @@ class Article(models.Model):
 
     class Meta:
         ordering = ("-created",)
+        verbose_name = "مقاله"
+        verbose_name_plural = "مقالات"
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
@@ -49,6 +55,10 @@ class Comment(models.Model):
     def __str__(self):
         return self.body[:50]
 
+    class Meta:
+        verbose_name = "نظر"
+        verbose_name_plural = "نظرات"
+
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="likes")
@@ -57,6 +67,10 @@ class Like(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.article.title}"
+
+    class Meta:
+        verbose_name = "لایک"
+        verbose_name_plural = "لایک ها"
 
 
 class Message(models.Model):
@@ -69,6 +83,10 @@ class Message(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = "پیام"
+        verbose_name_plural = "پیام ها"
 
 
 
