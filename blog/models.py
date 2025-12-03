@@ -65,8 +65,8 @@ class Comment(models.Model):
 
 
 class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="likes", varbose_name="کاربر")
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="likes", varbose_name="مقاله")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="likes")
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="likes")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

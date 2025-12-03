@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}
-    Post Detaile
+    Post Detail
 {% endblock %}
 {% block content %}
 
@@ -78,7 +78,11 @@
                           <div class="col-6">
                             <ul class="post-tags">
 
-{#                              <li><a href="{% url "blog:like" article.slug article.id %}"><i style="font-size: 20px" class="fa fa-heart-o">2</i></a></li>#}
+                              {% if is_liked %}
+                              <li><a onclick="like('{{ article.slug }}', '{{ article.id }}')"><i id="like" style="font-size: 20px" class="fa fa-heart"><span id="count">{{ article.likes.all.count }}</span></i></a></li>
+                              {% else %}
+                              <li><a onclick="like('{{ article.slug }}', '{{ article.id }}')"><i id="like" style="font-size: 20px" class="fa fa-heart-o"><span id="count">{{ article.likes.all.count }}</span></i></a></li>
+                              {% endif %}
 
                             </ul>
                           </div>

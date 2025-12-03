@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from .models import Article, Category, Comment, Message, Like
 from django.core.paginator import Paginator
@@ -79,6 +80,14 @@ class UserList(ListView):
 class ArticleDetailView(DetailView):
     model = Article
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.likes.filter(article__slug=self.object.slug, user__id=self.request.user.id).exists():
+            context["is_liked"] = True
+        else:
+            context["is_liked"] = False
+        return context
+
 
 # LoginRequiredMixin
 class ArticleListView(LoginBlogRequiredMixin, ListView):
@@ -147,11 +156,16 @@ class YearArchiveArticleView(YearArchiveView):
     allow_empty = True
     template_name = "blog/article_archive_year.html"
 
-# def like(request, slug, pk):
-#     try:
-#         like = Like.objects.get(article__slug=slug, user__id=request.user.id)
-#         like.delete()
-#     except:
-#         Like.objects.create(article_id=pk, user_id=request.user.id)
-#
-#     return redirect("blog:detail", slug)
+
+def like(request, slug, pk):
+    try:
+        like = Like.objects.get(article__slug=slug, user__id=request.user.id)
+        like.delete()
+        return JsonResponse({"response": "unliked"})
+    except:
+        Like.objects.create(article_id=pk, user_id=request.user.id)
+        return JsonResponse({"response": "liked"})
+
+
+
+
